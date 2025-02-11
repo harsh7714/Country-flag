@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Code and Flag</title>
+    <style>
+        /* RESETTING DEFAULT STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* GENERAL STYLES */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #270722;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* TYPOGRAPHY STYLES */
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        li {
+            font-size: 18px;
+            color: #555;
+        }
+
+        /* HEADING STYLES */
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #ECCE8E;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .heading h1 {
+            font-size: 26px;
+            color: #4CAF50;
+        }
+
+        .heading ol {
+            list-style-type: none;
+            margin-top: 10px;
+            padding-left: 0;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .heading li {
+            padding-left: 10px;
+            margin-bottom: 8px;
+        }
+
+        /* CONTAINER STYLES */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            padding: 30px;
+            background-color: #ECCE8E;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* INPUT FIELD STYLES */
+        .input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input input {
+            width: 150px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .input input:focus {
+            border-color: #4CAF50;
+        }
+
+        /* BUTTON STYLES */
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6e45a0;
+        }
+
+        /* IMAGE STYLES */
+        .image img {
+            margin-top: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+        }
+
+        /* RESPONSIVE DESIGN FOR SMALL SCREENS */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .input input {
+                width: 130px;
+            }
+
+            button {
+                padding: 10px 18px;
+                background-color: red;
+            }
+
+            body {
+                background-color: orange;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="heading">
+        <h1>Select a Country Code</h1>
+        <p>Choose a country code from the list below:</p>
+        <ol id="order">
+            <li>India - IN</li>
+            <li>US - US</li>
+            <li>United Kingdom - GB</li>
+            <li>Canada - CA</li>
+            <li>Australia - AU</li>
+            <li>Germany - DE</li>
+            <li>France - FR</li>
+            <li>Italy - IT</li>
+            <li>Brazil - BR</li>
+            <li>Mexico - MX</li>
+            <li>Japan - JP</li>
+            <li>South Korea - KR</li>
+            <li>Russia - RU</li>
+            <li>China - CN</li>
+            <li>South Africa - ZA</li>
+        </ol>
+    </div>
+
+    <div class="container">
+        <div class="input">
+            <p>Enter Country Code:</p><br>
+            <input type="text" placeholder="IN">
+        </div>
+
+        <button>Show Flag</button>
+
+        <div class="image">
+            <img src="https://flagsapi.com/IN/shiny/64.png" alt="Country Flag">
+        </div>
+    </div>
+
+    <script>
+        let btn = document.querySelector("button");
+        let img = document.querySelector("img");
+        let inval = document.querySelector("input");
+        btn.addEventListener("click", () => {
+            changeflag();
+        })
+        let changeflag = () => {
+            let val = inval.value;
+            let newsrc = `https:flagsapi.com/${val.toUpperCase()}/shiny/64.png`;
+
+            img.src = newsrc;
+
+        }
+    </script>
+</body>
+
+</html>
