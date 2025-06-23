@@ -6,62 +6,91 @@
     <title>Country Flag Selector</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #270722;
-            color: #333;
-            margin: 0;
-            padding: 32px 0;
+            background: linear-gradient(135deg, #6741d9 0%, #c0aaff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
-        .container {
-            background: #ECCE8E;
-            max-width: 350px;
-            margin: 40px auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .flag-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(80, 41, 204, 0.18);
+            padding: 36px 30px 28px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 32px 20px;
-            gap: 18px;
+            min-width: 320px;
+            gap: 20px;
         }
-        select, button {
-            font-size: 16px;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+        .flag-card h2 {
+            color: #5f3dc4;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        select {
+            font-size: 1.08rem;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1.5px solid #b197fc;
+            background: #f3f0ff;
+            color: #5f3dc4;
+            font-weight: 500;
             outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+            max-width: 270px;
+            box-sizing: border-box;
         }
-        button {
-            background: #4CAF50;
-            color: white;
-            cursor: pointer;
-            border: none;
-            transition: background 0.3s;
+        select:focus {
+            border-color: #6741d9;
         }
-        button:hover {
-            background: #6e45a0;
+        .flag-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        img {
-            margin-top: 10px;
-            width: 80px;
-            height: 80px;
-            border-radius: 5px;
+        .flag-img {
+            margin: 12px 0 0 0;
+            width: 96px;
+            height: 96px;
+            border-radius: 8px;
+            box-shadow: 0 1px 8px rgba(103,65,217,0.08);
+            border: 2.5px solid #e5dbff;
             background: #fff;
+            transition: border-color 0.25s;
+        }
+        .country-label {
+            margin-top: 10px;
+            color: #6741d9;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-align: center;
         }
         @media (max-width: 480px) {
-            .container { padding: 18px 4px; }
-            select { width: 95%; }
+            .flag-card {
+                padding: 16px 6px 16px 6px;
+                min-width: 0;
+                width: 95vw;
+            }
+            .flag-img {
+                width: 64px;
+                height: 64px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <label for="countrySelect">Choose a country:</label>
-        <select id="countrySelect">
-            <!-- Options will be filled by JS -->
-        </select>
-        <button id="showFlag">Show Flag</button>
-        <img id="flagImg" src="https://flagsapi.com/IN/shiny/64.png" alt="Country Flag">
+    <div class="flag-card">
+        <h2>Country Flag Selector</h2>
+        <select id="countrySelect"></select>
+        <div class="flag-display">
+            <img id="flagImg" class="flag-img" src="https://flagsapi.com/IN/shiny/64.png" alt="Country Flag">
+            <div id="countryLabel" class="country-label">India (IN)</div>
+        </div>
     </div>
     <script>
         const countries = [
@@ -133,20 +162,29 @@
         ];
         const select = document.getElementById('countrySelect');
         const img = document.getElementById('flagImg');
+        const label = document.getElementById('countryLabel');
+
         countries.forEach(c => {
             let opt = document.createElement('option');
             opt.value = c.code;
             opt.textContent = `${c.name} (${c.code})`;
             select.appendChild(opt);
         });
+
+        // Default selection: India
         select.value = "IN";
+
         function updateFlag() {
             const code = select.value;
+            const selectedCountry = countries.find(c => c.code === code);
             img.src = `https://flagsapi.com/${code}/shiny/64.png`;
-            img.alt = `Flag of ${select.options[select.selectedIndex].text}`;
+            img.alt = `Flag of ${selectedCountry.name} (${code})`;
+            label.textContent = `${selectedCountry.name} (${code})`;
         }
-        document.getElementById('showFlag').onclick = updateFlag;
+
         select.onchange = updateFlag;
+        // Set initial flag and label
+        updateFlag();
     </script>
 </body>
 </html>
