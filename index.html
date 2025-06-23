@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,39 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Country Code and Flag</title>
     <style>
-        /* RESETTING DEFAULT STYLES */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        /* GENERAL STYLES */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #270722;
             padding: 20px;
             color: #333;
         }
-
         h1 {
             font-size: 28px;
             color: #333;
             margin-bottom: 20px;
         }
-
-        /* TYPOGRAPHY STYLES */
         p {
             font-size: 18px;
             color: #333;
         }
-
         li {
             font-size: 18px;
             color: #555;
         }
-
-        /* HEADING STYLES */
         .heading {
             text-align: center;
             margin-bottom: 30px;
@@ -47,12 +38,10 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         .heading h1 {
             font-size: 26px;
             color: #4CAF50;
         }
-
         .heading ol {
             list-style-type: none;
             margin-top: 10px;
@@ -60,13 +49,10 @@
             text-align: left;
             display: inline-block;
         }
-
         .heading li {
             padding-left: 10px;
             margin-bottom: 8px;
         }
-
-        /* CONTAINER STYLES */
         .container {
             display: flex;
             justify-content: center;
@@ -78,14 +64,11 @@
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-
-        /* INPUT FIELD STYLES */
         .input {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         .input input {
             width: 150px;
             padding: 12px;
@@ -96,12 +79,9 @@
             text-align: center;
             transition: border-color 0.3s;
         }
-
         .input input:focus {
             border-color: #4CAF50;
         }
-
-        /* BUTTON STYLES */
         button {
             padding: 12px 24px;
             font-size: 16px;
@@ -112,34 +92,31 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
         button:hover {
             background-color: #6e45a0;
         }
-
-        /* IMAGE STYLES */
         .image img {
             margin-top: 20px;
             width: 80px;
             height: 80px;
             border-radius: 5px;
         }
-
-        /* RESPONSIVE DESIGN FOR SMALL SCREENS */
+        .error {
+            color: #e53935;
+            margin-top: 10px;
+            font-size: 16px;
+        }
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
             }
-
             .input input {
                 width: 130px;
             }
-
             button {
                 padding: 10px 18px;
                 background-color: red;
             }
-
             body {
                 background-color: orange;
             }
@@ -169,35 +146,53 @@
             <li>South Africa - ZA</li>
         </ol>
     </div>
-
     <div class="container">
-        <div class="input">
-            <p>Enter Country Code:</p><br>
-            <input type="text" placeholder="IN">
-        </div>
-
-        <button>Show Flag</button>
-
+        <form class="input" id="flagForm" autocomplete="off" onsubmit="return false;">
+            <label for="countryCode">Enter Country Code:</label>
+            <input id="countryCode" name="countryCode" type="text" placeholder="IN" maxlength="2" required>
+        </form>
+        <button id="showFlag">Show Flag</button>
+        <div class="error" id="errorMsg"></div>
         <div class="image">
-            <img src="https://flagsapi.com/IN/shiny/64.png" alt="Country Flag">
+            <img id="flagImg" src="https://flagsapi.com/IN/shiny/64.png" alt="Country Flag">
         </div>
     </div>
-
     <script>
-        let btn = document.querySelector("button");
-        let img = document.querySelector("img");
-        let inval = document.querySelector("input");
+        const btn = document.getElementById("showFlag");
+        const img = document.getElementById("flagImg");
+        const input = document.getElementById("countryCode");
+        const errorMsg = document.getElementById("errorMsg");
+
+        // List of valid country codes from the list above
+        const validCodes = [
+            "IN", "US", "GB", "CA", "AU", "DE", "FR", "IT", "BR", "MX", "JP", "KR", "RU", "CN", "ZA"
+        ];
+
         btn.addEventListener("click", () => {
-            changeflag();
-        })
-        let changeflag = () => {
-            let val = inval.value;
-            let newsrc = `https:flagsapi.com/${val.toUpperCase()}/shiny/64.png`;
+            changeFlag();
+        });
 
-            img.src = newsrc;
+        input.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                changeFlag();
+            }
+        });
 
+        function changeFlag() {
+            let val = input.value.trim().toUpperCase();
+            if (!val) {
+                errorMsg.textContent = "Please enter a country code.";
+                return;
+            }
+            if (!validCodes.includes(val)) {
+                errorMsg.textContent = "Invalid country code. Please select from the list above.";
+                return;
+            }
+            errorMsg.textContent = "";
+            img.src = `https://flagsapi.com/${val}/shiny/64.png`;
+            img.alt = `Flag of ${val}`;
         }
     </script>
 </body>
-
 </html>
